@@ -3,625 +3,286 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>MARIO CARTER // CarterPCs 3D Grand Prix</title>
-  
-  <!-- Modern Typography: Plus Jakarta Sans, Outfit, and JetBrains Mono -->
+  <title>MARIO CARTER</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Stylesheet -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;800&family=Outfit:wght@700;800;900&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Fullscreen 3D WebGL Canvas -->
+  <!-- Fullscreen 3D Kart Track Canvas -->
   <canvas id="game-canvas"></canvas>
 
-  <!-- Top Minimalist Header Bar -->
+  <!-- Minimalist Floating Top Controls -->
   <header id="top-bar">
-    <div class="brand-group">
-      <div class="brand-badge">
-        <span class="brand-dot"></span>
-        <span class="brand-title">MARIO CARTER</span>
-        <span class="brand-sub">CARTER PCS EDITION</span>
-      </div>
-      <div class="edition-pill">240Hz READY</div>
+    <div class="brand-badge">
+      <span class="brand-dot"></span>
+      <span class="brand-title">MARIO CARTER</span>
     </div>
 
     <div class="top-actions">
-      <!-- Look Back / Rear-View Mirror toggle button -->
-      <button id="btn-camera-toggle" class="glass-btn icon-btn" title="Look Back / Rear-View Mirror (Key: C or Shift)" aria-label="Toggle Rear-View Camera">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-          <circle cx="12" cy="12" r="3"></circle>
-        </svg>
-        <span class="btn-label">REAR-VIEW [C]</span>
+      <button id="btn-camera-toggle" class="pill-btn" title="Look Back [C]">
+        <span>👀 LOOK BACK [C]</span>
       </button>
-
-      <!-- Audio Mute/Unmute button -->
-      <button id="btn-audio-toggle" class="glass-btn icon-btn" title="Toggle Sound / Music (Key: M)" aria-label="Toggle Audio">
-        <svg id="audio-icon-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-        </svg>
-        <svg id="audio-icon-off" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-          <line x1="23" y1="9" x2="17" y2="15"></line>
-          <line x1="17" y1="9" x2="23" y2="15"></line>
-        </svg>
-        <span class="btn-label">AUDIO</span>
+      <button id="btn-audio-toggle" class="pill-btn" title="Mute / Unmute">
+        <span id="audio-icon-on">🔊 SOUND</span>
+        <span id="audio-icon-off" class="hidden">🔇 MUTED</span>
       </button>
-
-      <!-- Lobby / Pause / Menu button -->
-      <button id="btn-pause" class="glass-btn icon-btn" title="Menu / Lobby (Key: Esc)" aria-label="Menu and Pause">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="6" y="4" width="4" height="16"></rect>
-          <rect x="14" y="4" width="4" height="16"></rect>
-        </svg>
-        <span class="btn-label">MENU</span>
+      <button id="btn-pause" class="pill-btn" title="Back to Menu [Esc]">
+        <span>🏠 MENU</span>
       </button>
     </div>
   </header>
 
-  <!-- LOBBY & GRAND PRIX SELECTION OVERLAY -->
-  <main id="lobby-screen" class="screen-overlay">
-    <div class="lobby-container">
-      
-      <!-- Hero Title -->
-      <div class="lobby-hero">
-        <div class="kicker-tag">THE DEFINITIVE HARDWARE KART RACER</div>
-        <h1 class="hero-title">MARIO <span>CARTER</span></h1>
-        <p class="hero-desc">Every racer is Carter. Pick your Carter build, customize engine clock speeds, and claim the CarterPCs Cup.</p>
+  <!-- SIMPLE, MINIMALIST MARIO KART START SCREEN -->
+  <main id="lobby-screen" class="start-screen">
+    <div class="start-card">
+      <!-- Big Clean Mario Kart Title -->
+      <div class="mk-header">
+        <div class="mk-logo">MARIO <span>CARTER</span></div>
+        <p class="mk-sub">Every Character is Carter • Pick Your Racer &amp; Race!</p>
       </div>
 
-      <!-- Main Selection Columns -->
-      <div class="lobby-grid">
-        
-        <!-- Column 1: Character Roster (8 Carters) -->
-        <section class="lobby-section roster-section" aria-labelledby="roster-heading">
-          <div class="section-header">
-            <h2 id="roster-heading" class="section-title">1. CHOOSE YOUR CARTER</h2>
-            <span class="section-tag">8 CUSTOM BUILDS</span>
+      <!-- Selected Carter Banner (Clean 1-Line Bar) -->
+      <div id="selected-carter-preview" class="selected-banner">
+        <canvas id="preview-avatar-canvas" width="88" height="88"></canvas>
+        <div class="selected-meta">
+          <div id="preview-name" class="selected-name">Mario Carter</div>
+          <div id="preview-quote" class="selected-quote">"Did you remember to flip your PSU switch?!"</div>
+        </div>
+        <!-- Hidden stat hooks so game.js never throws -->
+        <div class="hidden">
+          <span id="preview-build"></span>
+          <span id="stat-val-speed"></span><div id="stat-bar-speed"></div>
+          <span id="stat-val-accel"></span><div id="stat-bar-accel"></div>
+          <span id="stat-val-handling"></span><div id="stat-bar-handling"></div>
+          <span id="stat-val-drift"></span><div id="stat-bar-drift"></div>
+        </div>
+      </div>
+
+      <!-- 8-Racer Mario Kart Character Grid (4x2 Clean Portrait Tiles) -->
+      <div id="character-grid" class="mk-char-grid">
+        <div class="carter-card active" data-char-id="mario" tabindex="0">
+          <div class="avatar-frame">
+            <canvas class="card-avatar-canvas" data-avatar-id="mario" width="110" height="110"></canvas>
+            <span class="costume-badge" style="background:#EF4444">M</span>
           </div>
+          <span class="card-name">Mario Carter</span>
+        </div>
 
-          <div id="character-grid" class="character-grid">
-            <!-- Mario Carter -->
-            <div class="carter-card active" data-char-id="mario" tabindex="0">
-              <div class="avatar-frame">
-                <canvas class="card-avatar-canvas" data-avatar-id="mario" width="96" height="96"></canvas>
-                <span class="costume-badge red">M</span>
-              </div>
-              <div class="card-info">
-                <span class="card-name">Mario Carter</span>
-                <span class="card-build">Balanced 144Hz Build</span>
-              </div>
-            </div>
-
-            <!-- Luigi Carter -->
-            <div class="carter-card" data-char-id="luigi" tabindex="0">
-              <div class="avatar-frame">
-                <canvas class="card-avatar-canvas" data-avatar-id="luigi" width="96" height="96"></canvas>
-                <span class="costume-badge green">L</span>
-              </div>
-              <div class="card-info">
-                <span class="card-name">Luigi Carter</span>
-                <span class="card-build">Liquid Cooled Green</span>
-              </div>
-            </div>
-
-            <!-- Princess Carter -->
-            <div class="carter-card" data-char-id="princess" tabindex="0">
-              <div class="avatar-frame">
-                <canvas class="card-avatar-canvas" data-avatar-id="princess" width="96" height="96"></canvas>
-                <span class="costume-badge pink">👑</span>
-              </div>
-              <div class="card-info">
-                <span class="card-name">Princess Carter</span>
-                <span class="card-build">Aesthetic White Build</span>
-              </div>
-            </div>
-
-            <!-- Bowser Carter -->
-            <div class="carter-card" data-char-id="bowser" tabindex="0">
-              <div class="avatar-frame">
-                <canvas class="card-avatar-canvas" data-avatar-id="bowser" width="96" height="96"></canvas>
-                <span class="costume-badge orange">⚡</span>
-              </div>
-              <div class="card-info">
-                <span class="card-name">Bowser Carter</span>
-                <span class="card-build">RTX 5090 Threadripper</span>
-              </div>
-            </div>
-
-            <!-- Toad Carter -->
-            <div class="carter-card" data-char-id="toad" tabindex="0">
-              <div class="avatar-frame">
-                <canvas class="card-avatar-canvas" data-avatar-id="toad" width="96" height="96"></canvas>
-                <span class="costume-badge red-dot">🍄</span>
-              </div>
-              <div class="card-info">
-                <span class="card-name">Toad Carter</span>
-                <span class="card-build">ITX Mini-PC Rocket</span>
-              </div>
-            </div>
-
-            <!-- Yoshi Carter -->
-            <div class="carter-card" data-char-id="yoshi" tabindex="0">
-              <div class="avatar-frame">
-                <canvas class="card-avatar-canvas" data-avatar-id="yoshi" width="96" height="96"></canvas>
-                <span class="costume-badge neon-green">🦖</span>
-              </div>
-              <div class="card-info">
-                <span class="card-name">Yoshi Carter</span>
-                <span class="card-build">Custom Loop Overclocker</span>
-              </div>
-            </div>
-
-            <!-- Wario Carter -->
-            <div class="carter-card" data-char-id="wario" tabindex="0">
-              <div class="avatar-frame">
-                <canvas class="card-avatar-canvas" data-avatar-id="wario" width="96" height="96"></canvas>
-                <span class="costume-badge yellow">W</span>
-              </div>
-              <div class="card-info">
-                <span class="card-name">Wario Carter</span>
-                <span class="card-build">1600W PSU Beast</span>
-              </div>
-            </div>
-
-            <!-- Rosalina Carter -->
-            <div class="carter-card" data-char-id="rosalina" tabindex="0">
-              <div class="avatar-frame">
-                <canvas class="card-avatar-canvas" data-avatar-id="rosalina" width="96" height="96"></canvas>
-                <span class="costume-badge cyan">⭐</span>
-              </div>
-              <div class="card-info">
-                <span class="card-name">Rosalina Carter</span>
-                <span class="card-build">Zero-G Glass Case</span>
-              </div>
-            </div>
+        <div class="carter-card" data-char-id="luigi" tabindex="0">
+          <div class="avatar-frame">
+            <canvas class="card-avatar-canvas" data-avatar-id="luigi" width="110" height="110"></canvas>
+            <span class="costume-badge" style="background:#10B981">L</span>
           </div>
-        </section>
+          <span class="card-name">Luigi Carter</span>
+        </div>
 
-        <!-- Column 2: Selected Character Inspector & Stats Preview -->
-        <section class="lobby-section preview-section" aria-labelledby="preview-heading">
-          <div class="section-header">
-            <h2 id="preview-heading" class="section-title">2. BUILD SPECS & TELEMETRY</h2>
-            <span class="section-tag" id="preview-class-badge">CLASS A</span>
+        <div class="carter-card" data-char-id="princess" tabindex="0">
+          <div class="avatar-frame">
+            <canvas class="card-avatar-canvas" data-avatar-id="princess" width="110" height="110"></canvas>
+            <span class="costume-badge" style="background:#EC4899">👑</span>
           </div>
+          <span class="card-name">Peach Carter</span>
+        </div>
 
-          <div id="selected-carter-preview" class="preview-card">
-            <div class="preview-hero">
-              <div class="preview-avatar-wrap">
-                <canvas id="preview-avatar-canvas" width="160" height="160"></canvas>
-                <div class="preview-glow"></div>
-              </div>
-              <div class="preview-header-meta">
-                <div id="preview-name" class="preview-name">Mario Carter</div>
-                <div id="preview-build" class="preview-build">Balanced 144Hz Build</div>
-                <div class="preview-quote-bubble">
-                  <span class="quote-mark">“</span>
-                  <span id="preview-quote" class="quote-text">Did you remember to flip your PSU switch?!</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Hardware Stat Bars -->
-            <div class="stat-bars-container">
-              <div class="stat-row">
-                <div class="stat-labels">
-                  <span class="stat-name">TOP SPEED (CLOCK)</span>
-                  <span id="stat-val-speed" class="stat-num">78%</span>
-                </div>
-                <div class="stat-track"><div id="stat-bar-speed" class="stat-fill" style="width: 78%;"></div></div>
-              </div>
-
-              <div class="stat-row">
-                <div class="stat-labels">
-                  <span class="stat-name">ACCELERATION (RAM BUS)</span>
-                  <span id="stat-val-accel" class="stat-num">76%</span>
-                </div>
-                <div class="stat-track"><div id="stat-bar-accel" class="stat-fill" style="width: 76%;"></div></div>
-              </div>
-
-              <div class="stat-row">
-                <div class="stat-labels">
-                  <span class="stat-name">HANDLING (LATENCY)</span>
-                  <span id="stat-val-handling" class="stat-num">80%</span>
-                </div>
-                <div class="stat-track"><div id="stat-bar-handling" class="stat-fill" style="width: 80%;"></div></div>
-              </div>
-
-              <div class="stat-row">
-                <div class="stat-labels">
-                  <span class="stat-name">RGB MINI-TURBO DRIFT</span>
-                  <span id="stat-val-drift" class="stat-num">80%</span>
-                </div>
-                <div class="stat-track"><div id="stat-bar-drift" class="stat-fill rgb-accent" style="width: 80%;"></div></div>
-              </div>
-            </div>
+        <div class="carter-card" data-char-id="bowser" tabindex="0">
+          <div class="avatar-frame">
+            <canvas class="card-avatar-canvas" data-avatar-id="bowser" width="110" height="110"></canvas>
+            <span class="costume-badge" style="background:#F59E0B">🔥</span>
           </div>
-        </section>
+          <span class="card-name">Bowser Carter</span>
+        </div>
 
-        <!-- Column 3: Circuit Track & CC Engine Speed Select -->
-        <section class="lobby-section track-section" aria-labelledby="track-heading">
-          <div class="section-header">
-            <h2 id="track-heading" class="section-title">3. CIRCUIT & ENGINE CLASS</h2>
-            <span class="section-tag">3 CUPS</span>
+        <div class="carter-card" data-char-id="toad" tabindex="0">
+          <div class="avatar-frame">
+            <canvas class="card-avatar-canvas" data-avatar-id="toad" width="110" height="110"></canvas>
+            <span class="costume-badge" style="background:#3B82F6">🍄</span>
           </div>
+          <span class="card-name">Toad Carter</span>
+        </div>
 
-          <!-- Track Grid -->
-          <div id="track-grid" class="track-grid">
-            <!-- Track 1: Silicon Valley -->
-            <div class="track-card active" data-track-id="silicon" tabindex="0">
-              <div class="track-icon-badge silicon-accent">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="2" y="2" width="20" height="8" rx="2"></rect>
-                  <rect x="2" y="14" width="20" height="8" rx="2"></rect>
-                  <line x1="6" y1="6" x2="6.01" y2="6"></line>
-                  <line x1="6" y1="18" x2="6.01" y2="18"></line>
-                </svg>
-              </div>
-              <div class="track-details">
-                <div class="track-title">Silicon Valley Circuit</div>
-                <div class="track-desc">GPU archways, bridge straightaways, and smooth high-speed S-curves.</div>
-                <div class="track-meta">
-                  <span class="track-pill">STARTER</span>
-                  <span class="track-length">3 LAPS • 4.2 KM</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Track 2: Rainbow Overclock -->
-            <div class="track-card" data-track-id="rainbow" tabindex="0">
-              <div class="track-icon-badge rainbow-accent">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="M4.93 4.93l4.24 4.24"></path>
-                  <path d="M14.83 14.83l4.24 4.24"></path>
-                </svg>
-              </div>
-              <div class="track-details">
-                <div class="track-title">RGB Rainbow Overclock</div>
-                <div class="track-desc">Sunlit pearlescent cloudway with luminous RGB road borders and banked turns.</div>
-                <div class="track-meta">
-                  <span class="track-pill">PRO CUP</span>
-                  <span class="track-length">3 LAPS • 5.1 KM</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Track 3: Thermal Paste Desert -->
-            <div class="track-card" data-track-id="desert" tabindex="0">
-              <div class="track-icon-badge desert-accent">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                </svg>
-              </div>
-              <div class="track-details">
-                <div class="track-title">Thermal Paste Desert</div>
-                <div class="track-desc">Heatsink monoliths, spinning cooling fans, and technical hairpin drift corners.</div>
-                <div class="track-meta">
-                  <span class="track-pill">EXPERT</span>
-                  <span class="track-length">3 LAPS • 4.8 KM</span>
-                </div>
-              </div>
-            </div>
+        <div class="carter-card" data-char-id="yoshi" tabindex="0">
+          <div class="avatar-frame">
+            <canvas class="card-avatar-canvas" data-avatar-id="yoshi" width="110" height="110"></canvas>
+            <span class="costume-badge" style="background:#22C55E">🦖</span>
           </div>
+          <span class="card-name">Yoshi Carter</span>
+        </div>
 
-          <!-- CC Class Selector -->
-          <div class="cc-container">
-            <span class="cc-label">ENGINE CLOCK SPEED:</span>
-            <div id="cc-selector" class="cc-selector-group">
-              <button class="cc-btn" data-cc="100">100cc <span class="sub">Stock</span></button>
-              <button class="cc-btn active" data-cc="150">150cc <span class="sub">Overclock</span></button>
-              <button class="cc-btn" data-cc="200">200cc <span class="sub">Bottleneck-Free</span></button>
-            </div>
+        <div class="carter-card" data-char-id="wario" tabindex="0">
+          <div class="avatar-frame">
+            <canvas class="card-avatar-canvas" data-avatar-id="wario" width="110" height="110"></canvas>
+            <span class="costume-badge" style="background:#EAB308;color:#0F172A">W</span>
           </div>
+          <span class="card-name">Wario Carter</span>
+        </div>
 
-          <!-- Launch CTA Buttons -->
-          <div class="launch-actions">
-            <button id="btn-start-race" class="primary-launch-btn">
-              <span class="btn-text">START GRAND PRIX</span>
-              <span class="btn-subtext">8-RACER CARTER GP • 3 LAPS</span>
-            </button>
-            <button id="btn-time-trial" class="secondary-launch-btn">
-              <span>TIME TRIAL (SOLO)</span>
-            </button>
+        <div class="carter-card" data-char-id="rosalina" tabindex="0">
+          <div class="avatar-frame">
+            <canvas class="card-avatar-canvas" data-avatar-id="rosalina" width="110" height="110"></canvas>
+            <span class="costume-badge" style="background:#06B6D4">⭐</span>
           </div>
+          <span class="card-name">Rosalina Carter</span>
+        </div>
+      </div>
 
-          <!-- Quick Controls Guide -->
-          <div class="controls-legend">
-            <div class="legend-col"><kbd>W</kbd> / <kbd>↑</kbd> Drive</div>
-            <div class="legend-col"><kbd>A</kbd> <kbd>D</kbd> Steer</div>
-            <div class="legend-col"><kbd>Space</kbd> Hop &amp; Drift</div>
-            <div class="legend-col"><kbd>E</kbd> / <kbd>Z</kbd> Use Item</div>
-            <div class="legend-col"><kbd>C</kbd> Look Back</div>
+      <!-- Simple Cup / Track Selector + CC Pills -->
+      <div class="mk-options-row">
+        <div id="track-grid" class="mk-track-pills">
+          <div class="track-card active" data-track-id="silicon" tabindex="0">
+            <span class="cup-emoji">🍄</span>
+            <span class="track-title">Mushroom PC Cup</span>
           </div>
-        </section>
+          <div class="track-card" data-track-id="rainbow" tabindex="0">
+            <span class="cup-emoji">🌈</span>
+            <span class="track-title">Rainbow Road</span>
+          </div>
+          <div class="track-card" data-track-id="desert" tabindex="0">
+            <span class="cup-emoji">☀️</span>
+            <span class="track-title">Desert Dunes</span>
+          </div>
+        </div>
 
+        <div id="cc-selector" class="mk-cc-pills">
+          <button class="cc-btn" data-cc="100">100cc</button>
+          <button class="cc-btn active" data-cc="150">150cc</button>
+          <button class="cc-btn" data-cc="240">200cc</button>
+        </div>
+      </div>
+
+      <!-- Big Classic Mario Kart START Button -->
+      <div class="mk-start-row">
+        <button id="btn-start-race" class="mk-go-btn">
+          🏁 START RACE!
+        </button>
+        <button id="btn-time-trial" class="mk-quick-btn">
+          ⚡ 1-LAP QUICK RACE
+        </button>
+      </div>
+
+      <!-- Simple 1-Line Controls Hint -->
+      <div class="mk-controls-hint">
+        <span><b>W / ↑</b> Drive</span>
+        <span><b>A / D / ← / →</b> Steer</span>
+        <span><b>SPACE</b> Hop &amp; Drift</span>
+        <span><b>E / ENTER</b> Item</span>
+        <span><b>C</b> Look Back</span>
       </div>
     </div>
   </main>
 
-  <!-- IN-RACE MINIMALIST HUD OVERLAY -->
+  <!-- CLEAN MARIO KART IN-RACE HUD -->
   <div id="race-hud" class="hud-overlay hidden">
-    
-    <!-- Top-Left: Item Roulette & Coin / RAM Stick Counter -->
-    <div class="hud-group hud-top-left">
-      <div id="item-box-hud" class="item-slot-card">
+
+    <!-- Top-Left: Classic Mario Kart Item Roulette Box + Coins -->
+    <div class="hud-top-left">
+      <div id="item-box-hud" class="mk-item-box">
         <canvas id="item-canvas" width="96" height="96"></canvas>
-        <div class="item-meta">
-          <span class="item-label">ITEM [E]</span>
-          <span id="item-name" class="item-title">EMPTY</span>
-        </div>
+        <span id="item-name" class="mk-item-label">ITEM [E]</span>
       </div>
-
-      <div class="coin-hud-card">
-        <div class="ram-coin-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.2">
-            <rect x="2" y="6" width="20" height="12" rx="2"></rect>
-            <line x1="6" y1="10" x2="6.01" y2="10"></line>
-            <line x1="10" y1="10" x2="10.01" y2="10"></line>
-            <line x1="14" y1="10" x2="14.01" y2="10"></line>
-            <line x1="18" y1="10" x2="18.01" y2="10"></line>
-          </svg>
-        </div>
-        <div class="coin-values">
-          <span class="coin-label">RAM STICKS</span>
-          <span id="coin-count" class="coin-num">0 / 10</span>
-        </div>
+      <div class="mk-coin-pill">
+        🪙 <span id="coin-count">0 / 10</span>
       </div>
     </div>
 
-    <!-- Top-Center: Countdown, Lap Banner & Live Carter Commentary Toast -->
-    <div class="hud-group hud-top-center">
-      <!-- 3-2-1-GO Overlay -->
-      <div id="countdown-overlay" class="countdown-banner hidden">
-        <span id="countdown-text" class="countdown-number">3</span>
+    <!-- Top-Center: 3-2-1-GO & Lap Counter -->
+    <div class="hud-top-center">
+      <div id="countdown-overlay" class="mk-countdown hidden">
+        <span id="countdown-text">3</span>
       </div>
 
-      <!-- Lap Status Banner -->
-      <div class="lap-banner-card">
-        <div class="lap-metric">
-          <span class="hud-sub">LAP</span>
-          <span id="lap-counter" class="hud-main">1 / 3</span>
-        </div>
-        <div class="lap-divider"></div>
-        <div class="time-metric">
-          <span class="hud-sub">TIME</span>
-          <span id="race-timer" class="hud-main mono">00:00.00</span>
-        </div>
-        <div class="lap-divider"></div>
-        <div class="position-metric">
-          <span class="hud-sub">POS</span>
-          <span id="position-badge" class="hud-main pos-gold">1st</span>
-        </div>
+      <div class="mk-lap-pill">
+        <span>LAP <b id="lap-counter">1 / 3</b></span>
+        <span class="sep">•</span>
+        <span id="race-timer" class="mono">00:00.00</span>
       </div>
 
-      <!-- Live Carter Commentary Toast -->
-      <div id="commentary-toast" class="commentary-toast hidden">
-        <canvas id="commentary-avatar" width="40" height="40"></canvas>
-        <div class="commentary-body">
-          <span class="commentary-speaker">Carter Broadcast:</span>
-          <span id="commentary-text" class="commentary-message">"Setting monitor from 60Hz to 240Hz!"</span>
-        </div>
+      <div id="commentary-toast" class="mk-toast hidden">
+        <canvas id="commentary-avatar" width="36" height="36"></canvas>
+        <span id="commentary-text">Nice drift!</span>
       </div>
     </div>
 
-    <!-- Top-Right: Live 8-Racer Standings Leaderboard Tower -->
-    <div class="hud-group hud-top-right">
-      <div class="leaderboard-tower">
-        <div class="leaderboard-header">
-          <span class="dot-live"></span>
-          <span>LIVE STANDINGS</span>
+    <!-- Top-Right: Compact Standings -->
+    <div class="hud-top-right">
+      <ol id="leaderboard-list" class="mk-leaderboard"></ol>
+    </div>
+
+    <!-- Rear-View Mirror -->
+    <div id="rearview-container" class="mk-rearview hidden">
+      <canvas id="rearview-canvas" width="260" height="110"></canvas>
+    </div>
+
+    <!-- Bottom-Left: Track Minimap -->
+    <div class="hud-bottom-left">
+      <div class="mk-minimap">
+        <canvas id="minimap-canvas" width="180" height="180"></canvas>
+      </div>
+    </div>
+
+    <!-- Bottom-Right: Big Mario Kart Position (1st!) + Speed + Drift Bar -->
+    <div class="hud-bottom-right">
+      <div id="position-badge" class="mk-big-pos">1st</div>
+      <div id="speedometer-hud" class="mk-speed-card">
+        <div class="mk-speed-line">
+          <span id="speed-value" class="mk-speed-num">0</span>
+          <span class="mk-speed-unit">KM/H</span>
+          <span id="fps-value" class="hidden">240</span>
         </div>
-        <ol id="leaderboard-list" class="leaderboard-items">
-          <!-- Dynamically populated or updated in real time by game.js -->
-          <li class="leaderboard-row player-row" data-rank="1">
-            <span class="rank-num">1</span>
-            <canvas class="mini-avatar" width="24" height="24"></canvas>
-            <span class="racer-name">Mario Carter</span>
-            <span class="gap-time">LEADER</span>
-          </li>
-          <li class="leaderboard-row" data-rank="2">
-            <span class="rank-num">2</span>
-            <canvas class="mini-avatar" width="24" height="24"></canvas>
-            <span class="racer-name">Bowser Carter</span>
-            <span class="gap-time">+0.8s</span>
-          </li>
-          <li class="leaderboard-row" data-rank="3">
-            <span class="rank-num">3</span>
-            <canvas class="mini-avatar" width="24" height="24"></canvas>
-            <span class="racer-name">Princess Carter</span>
-            <span class="gap-time">+1.4s</span>
-          </li>
-          <li class="leaderboard-row" data-rank="4">
-            <span class="rank-num">4</span>
-            <canvas class="mini-avatar" width="24" height="24"></canvas>
-            <span class="racer-name">Luigi Carter</span>
-            <span class="gap-time">+2.1s</span>
-          </li>
-          <li class="leaderboard-row" data-rank="5">
-            <span class="rank-num">5</span>
-            <canvas class="mini-avatar" width="24" height="24"></canvas>
-            <span class="racer-name">Toad Carter</span>
-            <span class="gap-time">+2.9s</span>
-          </li>
-          <li class="leaderboard-row" data-rank="6">
-            <span class="rank-num">6</span>
-            <canvas class="mini-avatar" width="24" height="24"></canvas>
-            <span class="racer-name">Yoshi Carter</span>
-            <span class="gap-time">+3.7s</span>
-          </li>
-          <li class="leaderboard-row" data-rank="7">
-            <span class="rank-num">7</span>
-            <canvas class="mini-avatar" width="24" height="24"></canvas>
-            <span class="racer-name">Wario Carter</span>
-            <span class="gap-time">+4.5s</span>
-          </li>
-          <li class="leaderboard-row" data-rank="8">
-            <span class="rank-num">8</span>
-            <canvas class="mini-avatar" width="24" height="24"></canvas>
-            <span class="racer-name">Rosalina Carter</span>
-            <span class="gap-time">+5.2s</span>
-          </li>
-        </ol>
-      </div>
-    </div>
-
-    <!-- Center-Top: Rear-View Mirror Canvas Container -->
-    <div id="rearview-container" class="rearview-wrap hidden">
-      <div class="rearview-frame">
-        <canvas id="rearview-canvas" width="260" height="110"></canvas>
-        <div class="rearview-badge">LOOKING BACK</div>
-      </div>
-    </div>
-
-    <!-- Bottom-Left: Interactive 2D Track Minimap -->
-    <div class="hud-group hud-bottom-left">
-      <div class="minimap-container">
-        <canvas id="minimap-canvas" width="200" height="200"></canvas>
-        <div class="minimap-badge">CIRCUIT RADAR</div>
-      </div>
-    </div>
-
-    <!-- Bottom-Right: Speedometer & Drift Mini-Turbo HUD -->
-    <div class="hud-group hud-bottom-right">
-      <div id="speedometer-hud" class="speedometer-card">
-        <div class="speed-readout">
-          <div class="speed-main">
-            <span id="speed-value" class="speed-digits">0</span>
-            <span class="speed-unit">KM/H</span>
-          </div>
-          <div class="fps-telemetry">
-            <span id="fps-value">240</span> <span class="fps-unit">FPS / 5.8 GHz</span>
-          </div>
+        <div class="mk-drift-bar">
+          <div id="drift-bar-fill" class="mk-drift-fill"></div>
         </div>
-
-        <!-- Drift Turbo Charge Indicator -->
-        <div class="drift-meter-box">
-          <div class="drift-header">
-            <span class="drift-label">RGB MINI-TURBO:</span>
-            <span id="drift-badge" class="drift-level-badge none">READY</span>
-          </div>
-          <div class="drift-track">
-            <div id="drift-bar-fill" class="drift-fill" style="width: 0%;"></div>
-          </div>
-        </div>
+        <span id="drift-badge" class="mk-drift-label">DRIFT READY</span>
       </div>
     </div>
 
-    <!-- Mobile Touch / On-Screen Controls (Visible on touch devices) -->
+    <!-- Mobile Touch Controls -->
     <div id="mobile-controls" class="mobile-touch-bar">
-      <div class="touch-cluster touch-left">
-        <button id="btn-left" class="touch-btn" aria-label="Steer Left">◀</button>
-        <button id="btn-right" class="touch-btn" aria-label="Steer Right">▶</button>
+      <div class="touch-cluster">
+        <button id="btn-left" class="touch-btn">◀</button>
+        <button id="btn-right" class="touch-btn">▶</button>
       </div>
-      <div class="touch-cluster touch-right">
-        <button id="btn-item" class="touch-btn btn-item-touch" aria-label="Use Item">ITEM</button>
-        <button id="btn-drift" class="touch-btn btn-drift-touch" aria-label="Hop / Drift">DRIFT</button>
-        <button id="btn-gas" class="touch-btn btn-gas-touch" aria-label="Gas / Accelerate">GAS</button>
+      <div class="touch-cluster">
+        <button id="btn-item" class="touch-btn">ITEM</button>
+        <button id="btn-drift" class="touch-btn">DRIFT</button>
+        <button id="btn-gas" class="touch-btn gas">GAS</button>
       </div>
     </div>
-
   </div>
 
-  <!-- POST-RACE PODIUM & RESULTS MODAL (Native <dialog> with modern web guidance) -->
-  <dialog id="results-modal" class="results-dialog hidden" aria-labelledby="results-title">
+  <!-- SIMPLE POST-RACE RESULTS MODAL -->
+  <dialog id="results-modal" class="results-dialog hidden">
     <div class="modal-inner">
-      
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <div class="winner-kicker">CARTER GRAND PRIX FINISHED</div>
-        <h2 id="results-title" class="results-heading">RACE RESULTS</h2>
-        <p class="results-sub">Official telemetry from the CarterPCs Circuit Timing Hub.</p>
-      </div>
-
-      <!-- Top 3 Podium Cards -->
-      <div id="podium-cards" class="podium-section">
-        <!-- 2nd Place -->
-        <div class="podium-card silver-card" data-place="2">
-          <div class="podium-rank">2ND</div>
-          <div class="podium-avatar-wrap">
-            <canvas class="podium-avatar-canvas" data-podium="2" width="72" height="72"></canvas>
-          </div>
-          <div class="podium-name">Bowser Carter</div>
-          <div class="podium-time">+1.24s</div>
-        </div>
-
-        <!-- 1st Place (Gold Center) -->
-        <div class="podium-card gold-card" data-place="1">
-          <div class="crown-icon">👑</div>
-          <div class="podium-rank gold-rank">1ST</div>
-          <div class="podium-avatar-wrap big">
-            <canvas class="podium-avatar-canvas" data-podium="1" width="96" height="96"></canvas>
-          </div>
-          <div class="podium-name winner-name">Mario Carter</div>
-          <div class="podium-time gold-time">02:14.38</div>
-          <div class="winner-tag">CHAMPION</div>
-        </div>
-
-        <!-- 3rd Place -->
-        <div class="podium-card bronze-card" data-place="3">
-          <div class="podium-rank">3RD</div>
-          <div class="podium-avatar-wrap">
-            <canvas class="podium-avatar-canvas" data-podium="3" width="72" height="72"></canvas>
-          </div>
-          <div class="podium-name">Princess Carter</div>
-          <div class="podium-time">+2.55s</div>
-        </div>
-      </div>
-
-      <!-- Standings Table (All 8 Racers) -->
+      <h2 id="results-title" class="results-heading">🏆 FINISH!</h2>
+      <div id="podium-cards" class="hidden"></div>
       <div class="results-table-wrap">
         <table class="results-table">
           <thead>
             <tr>
               <th>POS</th>
-              <th>RACER</th>
-              <th>BUILD / CHASSIS</th>
-              <th>BEST LAP</th>
-              <th>TOTAL TIME</th>
-              <th>POINTS</th>
+              <th>CARTER</th>
+              <th>KART</th>
+              <th>BEST</th>
+              <th>TIME</th>
+              <th>PTS</th>
             </tr>
           </thead>
-          <tbody id="results-table-body">
-            <!-- Dynamically populated by game.js -->
-            <tr>
-              <td><span class="pos-badge gold">1</span></td>
-              <td class="racer-cell"><canvas class="table-mini-avatar" width="24" height="24"></canvas> Mario Carter</td>
-              <td>Balanced 144Hz Build</td>
-              <td class="mono">00:43.12</td>
-              <td class="mono bold">02:14.38</td>
-              <td class="bold">+15 PTS</td>
-            </tr>
-          </tbody>
+          <tbody id="results-table-body"></tbody>
         </table>
       </div>
-
-      <!-- Post-Race Modal Actions -->
       <div class="modal-actions">
-        <button id="btn-play-again" class="modal-btn primary-action">
-          <span>RETRY CIRCUIT</span>
-        </button>
-        <button id="btn-next-track" class="modal-btn secondary-action">
-          <span>NEXT TRACK ▶</span>
-        </button>
-        <button id="btn-back-lobby" class="modal-btn tertiary-action">
-          <span>BACK TO LOBBY</span>
-        </button>
+        <button id="btn-play-again" class="mk-go-btn">🔄 RACE AGAIN</button>
+        <button id="btn-next-track" class="mk-quick-btn">NEXT CUP ▶</button>
+        <button id="btn-back-lobby" class="mk-quick-btn">CHARACTER SELECT</button>
       </div>
-
     </div>
   </dialog>
 
-  <!-- SCRIPTS LOADED IN EXACT CONTRACT ORDER -->
   <script src="assets/three.min.js"></script>
   <script src="carter-assets.js"></script>
   <script src="audio.js"></script>
   <script src="game.js"></script>
-
 </body>
 </html>

@@ -1547,6 +1547,10 @@
     }
 
     renderAvatarToCanvas(canvas, charData) {
+      if (window.CarterAssets && typeof window.CarterAssets.renderCharacterPortrait === 'function') {
+        window.CarterAssets.renderCharacterPortrait(canvas, charData);
+        return;
+      }
       const ctx = canvas.getContext('2d');
       const w = canvas.width;
       const h = canvas.height;
